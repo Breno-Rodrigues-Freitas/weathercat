@@ -1,7 +1,11 @@
 import requests
+import os
+from dotenv import load_dotenv
 from cat_engine import choose_cat
 
-API_KEY = "YOUR_API_KEY"
+load_dotenv()
+
+API_KEY=os.getenv("API_KEY")
 
 def get_weather(city):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
