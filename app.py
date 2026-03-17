@@ -1,48 +1,57 @@
 import streamlit as st
-import requests
-import os
-from dotenv import load_dotenv
-from cat_engine import choose_cat
+from cat_engine import get_weather_and_mood
 
-load_dotenv()
+# Configuração da página
+st.set_page_config(
+    page_title="WeatherCat",
+    page_icon="🐱",
+    layout="centered"
+)
 
-API_KEY = os.getenv("API_KEY")
-
+# Título e descrição
 st.title("🐱 WeatherCat")
-st.write("Weather and cat mood based on your city")
+st.markdown("Descubra o clima e o humor do gato na sua cidade!")
 
-city = st.text_input("Enter a city")
+# Entrada do usuário
+cidade = st.text_input("Digite o nome da cidade", placeholder="Ex: London, São Paulo")
 
-def get_weather(city):
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
-
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        return response.json()
+# Botão de busca
+if st.button("Ver clima e humor do gato"):
+    if not cidade.strip():
+        st.warning("Por favor, digite o nome de uma cidade.")
     else:
-        return None
+        with st.spinner("Consultando o tempo..."):
+            dados, erro = get_weather_and_mood(cidade.strip())
 
+        if erro:
+            # Exibe a mensagem de erro de forma amigável
+            st.error(f"😿 {erro}")
+            # Imagem fallback (caso haja erro)
+            st.image("images/sleep_cat.webp", caption="Gato dormindo de tédio...")
+        else:
+            # Sucesso: exibe os dados e a imagem correspondente
+            col1, col2 = st.columns(2)
 
-if city:
+            with col1:
+                st.subheader(f"Clima em {cidade}")
+                st.metric("Temperatura", f"{dados['temperatura']} °C")
+                st.write(f"**Condição:** {dados['condicao'].capitalize()}")
+                st.write(f"**Umidade:** {dados['umidade']}%")
+                st.write(f"**Humor:** {dados['humor_desc']}")
 
-    data = get_weather(city)
+            with col2:
+                # Caminho completo da imagem
+                imagem_path = f"images/{dados['humor_nome']}.webp"
+                st.image(imagem_path, caption=dados['humor_desc'], use_container_width=True)
 
-    if data:
+            # Linha separadora e mensagem final
+            st.divider()
+            st.caption("WeatherCat – trazendo o humor felino para o seu dia ☁️😺")
 
-        temperature = data["main"]["temp"]
-        weather = data["weather"][0]["description"]
-        humidity = data["main"]["humidity"]
-
-        cat = choose_cat(temperature, weather)
-
-        st.subheader(f"Weather in {city}")
-        st.write(f"Temperature: {temperature} °C")
-        st.write(f"Condition: {weather}")
-        st.write(f"Humidity: {humidity}%")
-
-        st.subheader("Cat mood")
-        st.write(cat)
-
-    else:
-        st.write("City not found.")
+# Instruções laterais ou rodapé (opcional)
+st.sidebar.header("Sobre")
+st.sidebar.info(
+    "Este app usa a API do OpenWeather para obter dados climáticos "
+    "e um gatinho que muda de humor de acordo com o tempo.\n\n"
+    "Imagens personalizadas tornam a experiência mais divertida!"
+)
