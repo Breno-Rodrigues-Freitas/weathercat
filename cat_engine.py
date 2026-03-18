@@ -1,62 +1,90 @@
 import requests
 import os
+import time
 from dotenv import load_dotenv
 
-# Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
 
-# Configurações da API
 API_KEY = os.getenv("API_KEY")
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 
 def get_weather_data(cidade):
-    """
-    Busca dados climáticos da API OpenWeather.
-    Retorna um dicionário com temperatura, condição, umidade e ícone,
-    ou None em caso de erro.
-    """
+    """Busca dados climáticos da API OpenWeather."""
     if not API_KEY:
-        print("ERRO: OPENWEATHER_API_KEY não encontrada no arquivo .env")
+        print("ERRO: OPENWEATHER_API_KEY não encontrada")
         return None
 
     params = {
         "q": cidade,
         "appid": API_KEY,
-        "units": "metric",        # Celsius
-        "lang": "pt_br"           # Descrição em português
+        "units": "metric",
+        "lang": "pt_br"
     }
 
     try:
         response = requests.get(BASE_URL, params=params, timeout=10)
         if response.status_code == 200:
             data = response.json()
-            return {
+            # Extrai todos os campos necessários
+            weather_data = {
                 "temperatura": data["main"]["temp"],
-                "condicao": data["weather"][0]["description"],
                 "umidade": data["main"]["humidity"],
-                "icone": data["weather"][0]["icon"]  # código do ícone (pode ser usado futuramente)
+                "condicao": data["weather"][0]["description"],
+                "condicao_main": data["weather"][0]["main"],  # "Rain", "Clouds", etc.
+                "icone": data["weather"][0]["icon"],
+                "vento_velocidade": data.get("wind", {}).get("speed", 0),
+                "nascer_sol": data.get("sys", {}).get("sunrise"),
+                "por_sol": data.get("sys", {}).get("sunset"),
+                "timezone": data.get("timezone", 0)  # offset em segundos
             }
+            return weather_data
         else:
-            # Log detalhado do erro (aparecerá no terminal)
             print(f"Erro na API: {response.status_code} - {response.text}")
             return None
     except requests.exceptions.RequestException as e:
         print(f"Erro de conexão: {e}")
         return None
 
+def is_noite(nascer, por_sol, timezone):
+    """Verifica se é noite na cidade baseado nos horários de nascer/pôr do sol."""
+    if not (nascer and por_sol):
+        return False
+    # Hora atual em UTC
+    agora_utc = time.time()
+    # Hora local na cidade
+    agora_local = agora_utc + timezone
+    # Verifica se está fora do intervalo [nascer, por_sol]
+    return agora_local < nascer or agora_local > por_sol
+
 def choose_cat(weather_data):
     """
     Define o humor do gato com base nos dados do clima.
-    Retorna uma tupla: (nome_da_imagem, descrição_do_humor)
-    Os nomes das imagens correspondem aos arquivos na pasta images/.
+    Retorna (nome_da_imagem, descricao_do_humor).
     """
     temp = weather_data["temperatura"]
-    cond = weather_data["condicao"].lower()
     umid = weather_data["umidade"]
+    cond_main = weather_data["condicao_main"]
+    vento = weather_data["vento_velocidade"]
+    descricao = weather_data["condicao"].lower()
 
-    # Lógica de humor (você pode ajustar os limiares como preferir)
-    if any(palavra in cond for palavra in ["chuva", "rain", "pancadas"]):
+    # Verifica se é noite
+    noite = is_noite(weather_data["nascer_sol"], weather_data["por_sol"], weather_data["timezone"])
+
+    # Prioridade das condições (do mais específico ao mais genérico)
+    if cond_main == "Thunderstorm":
+        return "storm_cat", "⛈️ Gato assustado com trovões"
+    elif cond_main == "Snow":
+        return "snow_cat", "❄️ Gato brincando na neve"
+    elif cond_main in ["Mist", "Fog", "Haze"]:
+        return "foggy_cat", "🌫️ Gato confuso no nevoeiro"
+    elif vento > 10:  # vento forte (m/s)
+        return "windy_cat", "💨 Gato voando com o vento"
+    elif cond_main in ["Rain", "Drizzle"]:
         return "rain_cat", "🌧️ Gato observando a chuva"
+    elif noite:
+        return "night_cat", "🌙 Gato noturno caçando estrelas"
+    elif cond_main == "Clouds" and "nublado" in descricao:
+        return "cloudy_cat", "☁️ Gato preguiçoso nas nuvens"
     elif temp < 10:
         return "cold_cat", "❄️ Gato com frio"
     elif temp > 30:
@@ -67,16 +95,12 @@ def choose_cat(weather_data):
         return "normal_cat", "😺 Gato tranquilo"
 
 def get_weather_and_mood(cidade):
-    """
-    Função principal que combina a busca do clima e a escolha do humor.
-    Retorna uma tupla: (dados_completos, mensagem_de_erro)
-    Se dados_completos for None, a mensagem de erro explica o motivo.
-    """
+    """Função principal que retorna dados do clima e humor."""
     dados = get_weather_data(cidade)
     if dados is None:
         return None, "Não foi possível obter os dados do clima. Verifique o nome da cidade e sua chave da API."
 
     humor_nome, humor_desc = choose_cat(dados)
-    dados["humor_nome"] = humor_nome   # nome do arquivo (sem extensão)
-    dados["humor_desc"] = humor_desc   # texto descritivo
+    dados["humor_nome"] = humor_nome
+    dados["humor_desc"] = humor_desc
     return dados, None
