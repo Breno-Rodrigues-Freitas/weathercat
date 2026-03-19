@@ -1,4 +1,6 @@
 import streamlit as st
+import os
+from datetime import datetime
 from cat_engine import get_weather_and_mood
 
 # Configuração da página
@@ -12,10 +14,21 @@ st.set_page_config(
 st.title("🐱 WeatherCat")
 st.markdown("Descubra o clima e o humor do gato na sua cidade!")
 
-# Entrada do usuário
+# Entrada do usuário (a variável cidade é definida aqui)
 cidade = st.text_input("Digite o nome da cidade", placeholder="Ex: London, São Paulo")
 
-# Botão de busca
+def formatar_hora(timestamp_utc, timezone_segundos):
+    """Converte timestamp UTC para hora local e retorna string HH:MM."""
+    if timestamp_utc is None:
+        return "Não disponível"
+    # Converte para hora local
+    hora_local = datetime.fromtimestamp(timestamp_utc + timezone_segundos)
+    return hora_local.strftime("%H:%M")
+
+def imagem_existe(caminho):
+    """Verifica se o arquivo de imagem existe."""
+    return os.path.isfile(caminho)
+
 if st.button("Ver clima e humor do gato"):
     if not cidade.strip():
         st.warning("Por favor, digite o nome de uma cidade.")
@@ -24,12 +37,21 @@ if st.button("Ver clima e humor do gato"):
             dados, erro = get_weather_and_mood(cidade.strip())
 
         if erro:
-            # Exibe a mensagem de erro de forma amigável
             st.error(f"😿 {erro}")
-            # Imagem fallback (caso haja erro)
             st.image("images/sleep_cat.webp", caption="Gato dormindo de tédio...")
         else:
-            # Sucesso: exibe os dados e a imagem correspondente
+            # Define o caminho da imagem baseado no humor
+            imagem_nome = dados['humor_nome'] + ".webp"
+            imagem_path = f"images/{imagem_nome}"
+
+            # Se a imagem não existir, usa normal_cat.webp como fallback
+            if not imagem_existe(imagem_path):
+                st.warning(f"Imagem {imagem_nome} não encontrada. Usando imagem padrão.")
+                imagem_path = "images/normal_cat.webp"
+                humor_desc = dados['humor_desc'] + " (imagem padrão)"
+            else:
+                humor_desc = dados['humor_desc']
+
             col1, col2 = st.columns(2)
 
             with col1:
@@ -37,18 +59,23 @@ if st.button("Ver clima e humor do gato"):
                 st.metric("Temperatura", f"{dados['temperatura']} °C")
                 st.write(f"**Condição:** {dados['condicao'].capitalize()}")
                 st.write(f"**Umidade:** {dados['umidade']}%")
-                st.write(f"**Humor:** {dados['humor_desc']}")
+                st.write(f"**Vento:** {dados['vento_velocidade']} m/s")
+                
+                # Novos campos: nascer e pôr do sol
+                nascer = formatar_hora(dados.get('nascer_sol'), dados.get('timezone', 0))
+                por_sol = formatar_hora(dados.get('por_sol'), dados.get('timezone', 0))
+                st.write(f"**🌅 Nascer do sol:** {nascer}")
+                st.write(f"**🌇 Pôr do sol:** {por_sol}")
+                
+                st.write(f"**Humor:** {humor_desc}")
 
             with col2:
-                # Caminho completo da imagem
-                imagem_path = f"images/{dados['humor_nome']}.webp"
-                st.image(imagem_path, caption=dados['humor_desc'], use_container_width=True)
+                st.image(imagem_path, caption=humor_desc, use_container_width=True)
 
-            # Linha separadora e mensagem final
             st.divider()
             st.caption("WeatherCat – trazendo o humor felino para o seu dia ☁️😺")
 
-# Instruções laterais ou rodapé (opcional)
+# Barra lateral (opcional)
 st.sidebar.header("Sobre")
 st.sidebar.info(
     "Este app usa a API do OpenWeather para obter dados climáticos "
