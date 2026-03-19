@@ -26,16 +26,17 @@ def get_weather_data(cidade):
         if response.status_code == 200:
             data = response.json()
             # Extrai todos os campos necessários
-            weather_data = {
+            weather_data = { 
                 "temperatura": data["main"]["temp"],
+                "sensacao": data["main"]["feels_like"],   # <-- NOVO
                 "umidade": data["main"]["humidity"],
                 "condicao": data["weather"][0]["description"],
-                "condicao_main": data["weather"][0]["main"],  # "Rain", "Clouds", etc.
+                "condicao_main": data["weather"][0]["main"],
                 "icone": data["weather"][0]["icon"],
                 "vento_velocidade": data.get("wind", {}).get("speed", 0),
                 "nascer_sol": data.get("sys", {}).get("sunrise"),
                 "por_sol": data.get("sys", {}).get("sunset"),
-                "timezone": data.get("timezone", 0)  # offset em segundos
+                "timezone": data.get("timezone", 0)
             }
             return weather_data
         else:

@@ -69,11 +69,14 @@ if st.button("Ver clima e humor do gato"):
                 st.write(f"**🌇 Pôr do sol:** {por_sol}")
                 
                 st.write(f"**Humor:** {humor_desc}")
-                
+
                 # Hora local atual da cidade
                 agora_utc = time.time()
                 hora_local = datetime.fromtimestamp(agora_utc + dados['timezone']).strftime("%d/%m/%Y %H:%M:%S")
                 st.write(f"**🕐 Hora local:** {hora_local}")
+
+                st.metric("Temperatura", f"{dados['temperatura']} °C")
+                st.write(f"**🌡️ Sensação térmica:** {dados['sensacao']} °C")
 
             with col2:
                 st.image(imagem_path, caption=humor_desc, use_container_width=True)
