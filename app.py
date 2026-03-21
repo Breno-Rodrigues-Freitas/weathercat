@@ -12,6 +12,7 @@ st.set_page_config(
 )
 
 # Título e descrição
+st.image("images/cat_animation.gif", use_container_width=True)
 st.title("🐱 WeatherCat")
 st.markdown("Descubra o clima e o humor do gato na sua cidade!")
 
