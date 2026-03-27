@@ -90,5 +90,6 @@ st.sidebar.header("Sobre")
 st.sidebar.info(
     "Este app usa a API do OpenWeather para obter dados climáticos "
     "e um gatinho que muda de humor de acordo com o tempo.\n\n"
-    "Imagens personalizadas tornam a experiência mais divertida!"
+    "Imagens personalizadas tornam a experiência mais divertida!" \
+    "Todos Diretos Reservados - Breno Rodrigues Freitas"
 )
