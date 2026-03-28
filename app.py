@@ -83,7 +83,7 @@ if st.button("Ver clima e humor do gato"):
                 st.image(imagem_path, caption=humor_desc, use_container_width=True)
 
             st.divider()
-            st.caption("WeatherCat – trazendo o humor felino para o seu dia ☁️😺")
+            st.caption("WeatherCat – trazendo o humor felino para o seu dia a dia☁️😺")
 
 # Barra lateral (opcional)
 st.sidebar.header("Sobre")
