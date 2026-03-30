@@ -11,6 +11,82 @@ st.set_page_config(
     layout="centered"
 )
 
+st.markdown("""
+<style>
+    /* Fonte e cores base */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Fundo escuro suave */
+    .stApp {
+        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    }
+
+    /* Títulos */
+    h1, h2, h3 {
+        color: #ffd966;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    /* Botões bonitos */
+    .stButton > button {
+        background: linear-gradient(90deg, #ff9966, #ff5e62);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Sidebar (opcional) */
+    .css-1d391kg, .css-163ttbj {
+        background: rgba(20, 20, 40, 0.95);
+        border-right: 1px solid #ffd96620;
+    }
+
+    /* ===== REMOVER QUADROS ===== */
+    /* Remove fundo e padding dos elementos que envolvem dados */
+    .element-container, .stMarkdown, .stDataFrame, .stAlert {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin-bottom: 8px !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+    }
+
+    /* Deixa os textos claros e sem caixas */
+    .stMarkdown p, .stMarkdown div, .stMarkdown ul, .stMarkdown li {
+        color: #f0f0f0 !important;
+        font-size: 1rem;
+        line-height: 1.5;
+        background: transparent !important;
+    }
+
+    /* Inputs continuam funcionais e bonitos */
+    .stTextInput > div > div > input,
+    .stSelectbox > div > div {
+        background: #2a2a3a !important;
+        border: 1px solid #ffd966 !important;
+        border-radius: 30px !important;
+        color: white !important;
+        padding: 8px 16px !important;
+    }
+    .stTextInput label, .stSelectbox label {
+        color: #ffd966 !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Título e descrição
 st.image("images/cat_animation.gif", use_container_width=True)
 st.title(" WeatherCat")
@@ -76,7 +152,6 @@ if st.button("Ver clima e humor do gato"):
                 hora_local = datetime.fromtimestamp(agora_utc + dados['timezone']).strftime("%d/%m/%Y %H:%M:%S")
                 st.write(f" Hora local: {hora_local}")
 
-                st.metric("Temperatura", f"{dados['temperatura']} °C")
                 st.write(f" Sensação térmica: {dados['sensacao']} °C")
 
             with col2:
