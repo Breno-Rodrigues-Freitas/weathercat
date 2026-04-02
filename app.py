@@ -13,83 +13,163 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-    /* Fonte e cores base */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
+        font-family: 'DM Sans', sans-serif;
     }
 
-    /* Fundo escuro suave */
+    /* Fundo */
     .stApp {
-        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        background: #0d0d14;
+        background-image:
+            radial-gradient(ellipse 70% 40% at 15% 0%, #1c0a35 0%, transparent 55%),
+            radial-gradient(ellipse 50% 35% at 85% 100%, #0a1830 0%, transparent 55%);
     }
 
     /* Títulos */
-    h1, h2, h3 {
-        color: #ffd966;
-        font-weight: 600;
-        margin-bottom: 1rem;
+    h1 {
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 2.4rem !important;
+        color: #f5e642 !important;
+        letter-spacing: -1px;
+    }
+    h2, h3 {
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 700 !important;
+        color: #f5e642 !important;
     }
 
-    /* Botões bonitos */
+    /* Botão */
     .stButton > button {
-        background: linear-gradient(90deg, #ff9966, #ff5e62);
-        color: white;
+        background: linear-gradient(135deg, #f5e642 0%, #ff9f43 100%);
+        color: #0d0d14;
         border: none;
-        border-radius: 50px;
-        padding: 0.5rem 1.5rem;
-        font-weight: 600;
-        transition: 0.2s;
+        border-radius: 14px;
+        padding: 0.65rem 1.8rem;
+        font-family: 'Syne', sans-serif;
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+        transition: all 0.2s ease;
     }
     .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 20px rgba(245, 230, 66, 0.3);
+        filter: brightness(1.06);
     }
 
-    /* Sidebar (opcional) */
-    .css-1d391kg, .css-163ttbj {
-        background: rgba(20, 20, 40, 0.95);
-        border-right: 1px solid #ffd96620;
+    /* Input */
+    .stTextInput > div > div > input {
+        background: #16161f !important;
+        border: 1.5px solid #2a2a40 !important;
+        border-radius: 12px !important;
+        color: #e8e8f0 !important;
+        padding: 10px 16px !important;
+        font-family: 'DM Sans', sans-serif !important;
+        transition: border-color 0.2s;
+    }
+    .stTextInput > div > div > input:focus {
+        border-color: #f5e642 !important;
+        box-shadow: 0 0 0 3px rgba(245, 230, 66, 0.1) !important;
+    }
+    .stTextInput > div > div > input::placeholder {
+        color: #555568 !important;
+    }
+    .stTextInput label {
+        color: #888899 !important;
+        font-size: 0.85rem !important;
     }
 
-    /* ===== REMOVER QUADROS ===== */
-    /* Remove fundo e padding dos elementos que envolvem dados */
-    .element-container, .stMarkdown, .stDataFrame, .stAlert {
+    /* Textos gerais */
+    .stMarkdown p, .stMarkdown div, .stMarkdown li {
+        color: #d8d8e8 !important;
+        background: transparent !important;
+    }
+
+    /* Metric */
+    [data-testid="metric-container"] {
+        background: #16161f !important;
+        border: 1px solid #22223a !important;
+        border-radius: 16px !important;
+        padding: 16px 20px !important;
+    }
+    [data-testid="metric-container"] label {
+        color: #6666aa !important;
+        font-size: 0.78rem !important;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+    [data-testid="metric-container"] [data-testid="stMetricValue"] {
+        color: #f5e642 !important;
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 1.8rem !important;
+    }
+
+    /* Textos soltos */
+    .element-container .stMarkdown {
         background: transparent !important;
         border: none !important;
-        padding: 0 !important;
-        margin-bottom: 8px !important;
         box-shadow: none !important;
-        backdrop-filter: none !important;
+        padding: 0 !important;
     }
 
-    /* Deixa os textos claros e sem caixas */
-    .stMarkdown p, .stMarkdown div, .stMarkdown ul, .stMarkdown li {
-        color: #f0f0f0 !important;
-        font-size: 1rem;
-        line-height: 1.5;
-        background: transparent !important;
+    /* Subheader com linha */
+    h3 {
+        border-bottom: 1px solid #22223a;
+        padding-bottom: 8px;
+        margin-bottom: 14px !important;
     }
 
-    /* Inputs continuam funcionais e bonitos */
-    .stTextInput > div > div > input,
-    .stSelectbox > div > div {
-        background: #2a2a3a !important;
-        border: 1px solid #ffd966 !important;
-        border-radius: 30px !important;
-        color: white !important;
-        padding: 8px 16px !important;
+    /* Divider */
+    hr {
+        border-color: #1e1e30 !important;
+        margin: 20px 0 !important;
     }
-    .stTextInput label, .stSelectbox label {
-        color: #ffd966 !important;
+
+    /* Caption */
+    .stCaption {
+        color: #444455 !important;
+        text-align: center;
+    }
+
+    /* Alerts */
+    .stAlert {
+        border-radius: 12px !important;
+        border: none !important;
+    }
+
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background: #0f0f1a !important;
+        border-right: 1px solid #1e1e30 !important;
+    }
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] li,
+    [data-testid="stSidebar"] div {
+        color: #7777aa !important;
+    }
+    [data-testid="stSidebar"] h2 {
+        color: #f5e642 !important;
+    }
+
+    /* Imagem arredondada */
+    [data-testid="stImage"] img {
+        border-radius: 16px;
+    }
+
+    /* Spinner */
+    .stSpinner > div {
+        border-top-color: #f5e642 !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # Título e descrição
 st.image("images/cat_animation.gif", use_container_width=True)
-st.title(" WeatherCat")
+st.title("🐱 WeatherCat")
 st.markdown("Descubra o clima e o humor do gato na sua cidade!")
 
 # Entrada do usuário (a variável cidade é definida aqui)
@@ -99,7 +179,6 @@ def formatar_hora(timestamp_utc, timezone_segundos):
     """Converte timestamp UTC para hora local e retorna string HH:MM."""
     if timestamp_utc is None:
         return "Não disponível"
-    # Converte para hora local
     hora_local = datetime.fromtimestamp(timestamp_utc + timezone_segundos)
     return hora_local.strftime("%H:%M")
 
@@ -138,33 +217,33 @@ if st.button("Ver clima e humor do gato"):
                 st.write(f"**Condição:** {dados['condicao'].capitalize()}")
                 st.write(f"**Umidade:** {dados['umidade']}%")
                 st.write(f"**Vento:** {dados['vento_velocidade']} m/s")
-                
+
                 # Novos campos: nascer e pôr do sol
                 nascer = formatar_hora(dados.get('nascer_sol'), dados.get('timezone', 0))
                 por_sol = formatar_hora(dados.get('por_sol'), dados.get('timezone', 0))
-                st.write(f" Nascer do sol: {nascer}")
-                st.write(f" Pôr do sol: {por_sol}")
-                
+                st.write(f"🌅 Nascer do sol: {nascer}")
+                st.write(f"🌇 Pôr do sol: {por_sol}")
+
                 st.write(f"**Humor:** {humor_desc}")
 
                 # Hora local atual da cidade
                 agora_utc = time.time()
                 hora_local = datetime.fromtimestamp(agora_utc + dados['timezone']).strftime("%d/%m/%Y %H:%M:%S")
-                st.write(f" Hora local: {hora_local}")
+                st.write(f"🕐 Hora local: {hora_local}")
 
-                st.write(f" Sensação térmica: {dados['sensacao']} °C")
+                st.write(f"🌡️ Sensação térmica: {dados['sensacao']} °C")
 
             with col2:
                 st.image(imagem_path, caption=humor_desc, use_container_width=True)
 
             st.divider()
-            st.caption("WeatherCat – Trazendo o humor felino para o seu dia a dia☁️😺")
+            st.caption("WeatherCat – Trazendo o humor felino para o seu dia a dia ☁️😺")
 
 # Barra lateral (opcional)
 st.sidebar.header("Sobre")
 st.sidebar.info(
     "Este app usa a API do OpenWeather para obter dados climáticos "
     "e um gatinho que muda de humor de acordo com o tempo.\n\n"
-    "Imagens personalizadas tornam a experiência mais divertida!" \
-    "Todos Diretos Reservados - Breno Rodrigues Freitas"
+    "Imagens personalizadas tornam a experiência mais divertida! "
+    "Todos os Direitos Reservados - Breno Rodrigues Freitas"
 )
