@@ -160,9 +160,55 @@ st.markdown("""
         border-radius: 16px;
     }
 
-    /* Spinner */
+    /* Spinner padrão oculto */
     .stSpinner > div {
         border-top-color: #f5e642 !important;
+        display: none !important;
+    }
+    .stSpinner {
+        display: none !important;
+    }
+
+    /* Loading personalizado */
+    @keyframes pawBounce {
+        0%, 100% { transform: translateY(0px); opacity: 1; }
+        50% { transform: translateY(-10px); opacity: 0.4; }
+    }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .custom-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        animation: fadeInUp 0.4s ease;
+    }
+    .paw-row {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+    .paw {
+        font-size: 1.8rem;
+        animation: pawBounce 1s ease-in-out infinite;
+    }
+    .paw:nth-child(1) { animation-delay: 0s; }
+    .paw:nth-child(2) { animation-delay: 0.2s; }
+    .paw:nth-child(3) { animation-delay: 0.4s; }
+    .loader-text {
+        font-family: 'Syne', sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #f5e642;
+        letter-spacing: 1px;
+    }
+    .loader-sub {
+        color: #555568;
+        font-size: 0.78rem;
+        margin-top: 4px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -190,8 +236,20 @@ if st.button("Ver clima e humor do gato"):
     if not cidade.strip():
         st.warning("Por favor, digite o nome de uma cidade.")
     else:
-        with st.spinner("Consultando o tempo..."):
-            dados, erro = get_weather_and_mood(cidade.strip())
+        loader = st.empty()
+        loader.markdown("""
+<div class="custom-loader">
+    <div class="paw-row">
+        <span class="paw">🐾</span>
+        <span class="paw">🐾</span>
+        <span class="paw">🐾</span>
+    </div>
+    <div class="loader-text">Consultando o tempo...</div>
+    <div class="loader-sub">O gato está farejando as nuvens ☁️</div>
+</div>
+""", unsafe_allow_html=True)
+        dados, erro = get_weather_and_mood(cidade.strip())
+        loader.empty()
 
         if erro:
             st.error(f"😿 {erro}")
