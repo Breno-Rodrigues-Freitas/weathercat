@@ -237,7 +237,15 @@ if st.button("Ver clima e humor do gato"):
                 st.image(imagem_path, caption=humor_desc, use_container_width=True)
 
             st.divider()
-            st.caption("WeatherCat – Trazendo o humor felino para o seu dia a dia ☁️😺")
+            st.markdown("""
+<div style="text-align:center; padding: 18px 0 8px;">
+    <div style="font-size:1.3rem; margin-bottom:6px;">🐱 ☁️ 😺</div>
+    <div style="font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; color:#f5e642; letter-spacing:1px; margin-bottom:4px;">WeatherCat</div>
+    <div style="color:#444466; font-size:0.78rem; margin-bottom:10px;">Trazendo o humor felino para o seu dia a dia</div>
+    <div style="display:inline-block; height:1px; width:40px; background:linear-gradient(90deg,transparent,#f5e64260,transparent); margin-bottom:10px;"></div><br>
+    <div style="color:#333350; font-size:0.72rem; letter-spacing:0.5px;">© 2025 Breno Rodrigues Freitas · Todos os direitos reservados</div>
+</div>
+""", unsafe_allow_html=True)
 
 # Barra lateral (opcional)
 st.sidebar.header("Sobre")
