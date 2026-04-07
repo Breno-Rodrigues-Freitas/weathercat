@@ -305,11 +305,60 @@ if st.button("Ver clima e humor do gato"):
 </div>
 """, unsafe_allow_html=True)
 
-# Barra lateral (opcional)
-st.sidebar.header("Sobre")
-st.sidebar.info(
-    "Este app usa a API do OpenWeather para obter dados climáticos "
-    "e um gatinho que muda de humor de acordo com o tempo.\n\n"
-    "Imagens personalizadas tornam a experiência mais divertida! "
-    "Todos os Direitos Reservados - Breno Rodrigues Freitas"
-)
+# Barra lateral estilizada
+st.sidebar.markdown("""
+<div style="text-align:center; padding: 10px 0 20px;">
+    <div style="font-size:2.8rem; margin-bottom:6px;">🐱</div>
+    <div style="
+        font-family:'Syne',sans-serif;
+        font-weight:800;
+        font-size:1.3rem;
+        color:#f5e642;
+        letter-spacing:1px;
+    ">WeatherCat</div>
+    <div style="color:#444466; font-size:0.72rem; margin-top:2px;">v1.0 · by Breno Rodrigues</div>
+</div>
+
+<hr style="border-color:#1e1e30; margin: 0 0 20px;">
+
+<div style="margin-bottom:20px;">
+    <div style="
+        color:#f5e642;
+        font-family:'Syne',sans-serif;
+        font-weight:700;
+        font-size:0.8rem;
+        letter-spacing:1.5px;
+        text-transform:uppercase;
+        margin-bottom:12px;
+    ">📖 Sobre</div>
+    <div style="color:#7777aa; font-size:0.82rem; line-height:1.7;">
+        Usa a API do <strong style="color:#aaaacc;">OpenWeather</strong> para obter dados climáticos em tempo real
+        e exibe um gatinho cujo humor muda com o tempo. 😺
+    </div>
+</div>
+
+<hr style="border-color:#1e1e30; margin: 0 0 20px;">
+
+<div style="margin-bottom:20px;">
+    <div style="
+        color:#f5e642;
+        font-family:'Syne',sans-serif;
+        font-weight:700;
+        font-size:0.8rem;
+        letter-spacing:1.5px;
+        text-transform:uppercase;
+        margin-bottom:12px;
+    ">⚙️ Tecnologias</div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="background:#16161f; border:1px solid #22223a; border-radius:10px; padding:8px 12px; color:#aaaacc; font-size:0.8rem;">🐍 Python</div>
+        <div style="background:#16161f; border:1px solid #22223a; border-radius:10px; padding:8px 12px; color:#aaaacc; font-size:0.8rem;">🎈 Streamlit</div>
+        <div style="background:#16161f; border:1px solid #22223a; border-radius:10px; padding:8px 12px; color:#aaaacc; font-size:0.8rem;">🌤️ OpenWeather API</div>
+    </div>
+</div>
+
+<hr style="border-color:#1e1e30; margin: 0 0 20px;">
+
+<div style="text-align:center; color:#333350; font-size:0.7rem; line-height:1.8;">
+    © 2025 Breno Rodrigues Freitas<br>Todos os direitos reservados
+</div>
+""", unsafe_allow_html=True)
