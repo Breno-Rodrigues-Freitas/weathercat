@@ -243,6 +243,7 @@ if st.button("Ver clima e humor do gato"):
         <span class="paw">🐾</span>
         <span class="paw">🐾</span>
         <span class="paw">🐾</span>
+        <span class="paw">🐾</span>
     </div>
     <div class="loader-text">Consultando o tempo...</div>
     <div class="loader-sub">O gato está farejando as nuvens ☁️</div>
