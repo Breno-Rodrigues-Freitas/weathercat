@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from cat_engine import get_weather_and_mood
 
 # Configuração da página
