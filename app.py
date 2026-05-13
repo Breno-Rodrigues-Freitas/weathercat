@@ -301,50 +301,22 @@ if st.button("Ver clima e humor do gato"):
                 progresso = max(0, min(100, (temp - temp_min) / (temp_max - temp_min) * 100))
 
                 st.markdown(f"""
-<div style="
-    background:#16161f;
-    border:1px solid #22223a;
-    border-radius:14px;
-    padding:16px 18px;
-    margin-bottom:12px;
-">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+<div style="background:#16161f;border:1px solid #22223a;border-radius:14px;padding:16px 18px;margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
         <div>
-            <div style="color:#6666aa; font-size:0.7rem; text-transform:uppercase; letter-spacing:1px;">🌡️ Temperatura</div>
-            <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:2rem; color:{cor_temp}; line-height:1.1; margin-top:2px;">{temp}°C</div>
-            <div style="color:#555568; font-size:0.75rem; margin-top:2px;">Sensação: {sensacao}°C</div>
+            <div style="color:#6666aa;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;">🌡️ Temperatura</div>
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:{cor_temp};line-height:1.1;margin-top:2px;">{temp}°C</div>
+            <div style="color:#555568;font-size:0.75rem;margin-top:2px;">Sensação: {sensacao}°C</div>
         </div>
-        <div style="
-            background:{cor_temp}22;
-            color:{cor_temp};
-            font-size:0.75rem;
-            font-weight:700;
-            padding:6px 12px;
-            border-radius:50px;
-            letter-spacing:0.5px;
-        ">{label_temp}</div>
+        <div style="background:{cor_temp}22;color:{cor_temp};font-size:0.75rem;font-weight:700;padding:6px 12px;border-radius:50px;letter-spacing:0.5px;">{label_temp}</div>
     </div>
-
-    <!-- Barra de progresso -->
     <div style="margin-top:8px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-            <span style="color:#444466; font-size:0.65rem;">-10°C</span>
-            <span style="color:#444466; font-size:0.65rem;">45°C</span>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span style="color:#444466;font-size:0.65rem;">-10°C</span>
+            <span style="color:#444466;font-size:0.65rem;">45°C</span>
         </div>
-        <div style="
-            background:#22223a;
-            border-radius:50px;
-            height:8px;
-            width:100%;
-            overflow:hidden;
-        ">
-            <div style="
-                height:100%;
-                width:{progresso}%;
-                background: linear-gradient(90deg, #48dbfb, #f5e642, #ff9f43, #ff4757);
-                border-radius:50px;
-                transition: width 0.6s ease;
-            "></div>
+        <div style="background:#22223a;border-radius:50px;height:8px;width:100%;overflow:hidden;">
+            <div style="height:100%;width:{progresso}%;background:linear-gradient(90deg,#48dbfb,#f5e642,#ff9f43,#ff4757);border-radius:50px;"></div>
         </div>
     </div>
 </div>
@@ -434,42 +406,23 @@ if st.button("Ver clima e humor do gato"):
                 por_sol = formatar_hora(dados.get('por_sol'), dados.get('timezone', 0))
 
                 st.markdown(f"""
-<div style="
-    background: linear-gradient(135deg, #1a1a2e 0%, #16161f 100%);
-    border: 1px solid #22223a;
-    border-radius: 14px;
-    padding: 14px 16px;
-    margin: 10px 0;
-">
-    <div style="color:#6666aa; font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">☀️ Ciclo Solar</div>
-    <div style="display:flex; align-items:center; gap:8px;">
-
-        <!-- Nascer -->
-        <div style="flex:1; text-align:center;">
+<div style="background:linear-gradient(135deg,#1a1a2e 0%,#16161f 100%);border:1px solid #22223a;border-radius:14px;padding:14px 16px;margin:10px 0;">
+    <div style="color:#6666aa;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">☀️ Ciclo Solar</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;text-align:center;">
             <div style="font-size:1.5rem;">🌅</div>
-            <div style="color:#ff9f43; font-family:'Syne',sans-serif; font-weight:700; font-size:1.1rem; margin-top:4px;">{nascer}</div>
-            <div style="color:#6666aa; font-size:0.68rem; margin-top:2px;">Nascer</div>
+            <div style="color:#ff9f43;font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-top:4px;">{nascer}</div>
+            <div style="color:#6666aa;font-size:0.68rem;margin-top:2px;">Nascer</div>
         </div>
-
-        <!-- Linha do dia -->
-        <div style="flex:2; display:flex; flex-direction:column; align-items:center; gap:4px;">
-            <div style="
-                width:100%;
-                height:6px;
-                border-radius:50px;
-                background: linear-gradient(90deg, #ff9f43, #f5e642, #f5e642, #ff6b6b);
-                position:relative;
-            "></div>
-            <div style="color:#444466; font-size:0.65rem;">dia</div>
+        <div style="flex:2;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="width:100%;height:6px;border-radius:50px;background:linear-gradient(90deg,#ff9f43,#f5e642,#f5e642,#ff6b6b);"></div>
+            <div style="color:#444466;font-size:0.65rem;">dia</div>
         </div>
-
-        <!-- Pôr do sol -->
-        <div style="flex:1; text-align:center;">
+        <div style="flex:1;text-align:center;">
             <div style="font-size:1.5rem;">🌇</div>
-            <div style="color:#ff6b6b; font-family:'Syne',sans-serif; font-weight:700; font-size:1.1rem; margin-top:4px;">{por_sol}</div>
-            <div style="color:#6666aa; font-size:0.68rem; margin-top:2px;">Pôr do sol</div>
+            <div style="color:#ff6b6b;font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-top:4px;">{por_sol}</div>
+            <div style="color:#6666aa;font-size:0.68rem;margin-top:2px;">Pôr do sol</div>
         </div>
-
     </div>
 </div>
 """, unsafe_allow_html=True)
