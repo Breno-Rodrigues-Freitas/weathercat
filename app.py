@@ -437,6 +437,24 @@ if st.button("Ver clima e humor do gato"):
             with col2:
                 st.image(imagem_path, caption=humor_desc, use_container_width=True)
 
+                # Curiosidade felina do dia
+                import random
+                curiosidades = [
+                    "Gatos passam até 70% da vida dormindo. Vida boa, né? 😴",
+                    "O ronron de um gato pode curar ossos — a frequência de 25-50Hz estimula a regeneração. 🦴",
+                    "Gatos não sentem o sabor doce. Sorvete? Nem aí. 🍦",
+                    "Um gato doméstico pode atingir 48 km/h em rajadas curtas. 🏃",
+                    "Gatos têm 32 músculos em cada orelha. DJs naturais. 🎧",
+                    "O nariz de cada gato é único como uma impressão digital. 🐾",
+                    "Gatos piscam devagar para demonstrar amor e confiança. 😌",
+                    "Gatos bebem água virando a língua para trás, ao contrário dos cachorros. 💧",
+                    "Um grupo de gatos se chama 'clowder'. Agora você sabe. 🐱",
+                    "Gatos podem fazer mais de 100 sons diferentes. Cachorros fazem apenas 10. 🔊",
+                ]
+                curiosidade = random.choice(curiosidades)
+
+                st.markdown(f"""<div style="background:#16161f;border:1px solid #22223a;border-radius:14px;padding:16px;margin-top:12px;"><div style="color:#6666aa;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">🐾 Curiosidade Felina do Dia</div><div style="color:#d8d8e8;font-size:0.88rem;line-height:1.6;">{curiosidade}</div></div>""", unsafe_allow_html=True)
+
             st.divider()
             st.markdown("""
 <div style="text-align:center; padding: 18px 0 8px;">
