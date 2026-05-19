@@ -267,10 +267,10 @@ if st.button("Ver clima e humor do gato"):
             else:
                 humor_desc = dados['humor_desc']
 
-            col1, col2 = st.columns(2)
+            col1, col2 = st.columns([1.1, 1], gap="large")
 
             with col1:
-                st.subheader(f"Clima em {cidade}")
+                st.markdown(f"""<div style="text-align:center;margin-bottom:14px;"><div style="color:#6666aa;font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;">📍 Localização</div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:#f5e642;">{cidade.strip().title()}</div></div>""", unsafe_allow_html=True)
 
                 # Barra de progresso de temperatura
                 temp = dados['temperatura']
@@ -322,7 +322,7 @@ if st.button("Ver clima e humor do gato"):
 </div>
 """, unsafe_allow_html=True)
 
-                st.write(f"**Condição:** {dados['condicao'].capitalize()}")
+                st.markdown(f"""<div style="text-align:center;margin:8px 0 12px;"><span style="background:#22223a;color:#d8d8e8;font-size:0.85rem;padding:6px 16px;border-radius:50px;">🌥️ {dados['condicao'].capitalize()}</span></div>""", unsafe_allow_html=True)
 
                 # Badges visuais de umidade e vento
                 umidade = dados['umidade']
@@ -427,14 +427,12 @@ if st.button("Ver clima e humor do gato"):
 </div>
 """, unsafe_allow_html=True)
 
-                st.write(f"**Humor:** {humor_desc}")
+                st.markdown(f"""<div style="text-align:center;margin:10px 0 4px;"><span style="background:#f5e64222;color:#f5e642;font-size:0.82rem;font-weight:600;padding:6px 16px;border-radius:50px;">😸 {humor_desc}</span></div>""", unsafe_allow_html=True)
 
                 # Hora local atual da cidade
                 agora_utc = time.time()
-                hora_local = datetime.fromtimestamp(agora_utc + dados['timezone']).strftime("%d/%m/%Y %H:%M:%S")
-                st.write(f"🕐 Hora local: {hora_local}")
-
-                st.write(f"🌡️ Sensação térmica: {dados['sensacao']} °C")
+                hora_local = datetime.fromtimestamp(agora_utc + dados['timezone']).strftime("%d/%m/%Y %H:%M")
+                st.markdown(f"""<div style="text-align:center;color:#555568;font-size:0.78rem;margin-top:6px;">🕐 Hora local: {hora_local}</div>""", unsafe_allow_html=True)
 
             with col2:
                 st.image(imagem_path, caption=humor_desc, use_container_width=True)
