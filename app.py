@@ -523,3 +523,5 @@ st.sidebar.markdown("""
     © 2025 Breno Rodrigues Freitas<br>Todos os direitos reservados
 </div>
 """, unsafe_allow_html=True)
+
+#Inicio para configurar um apk
