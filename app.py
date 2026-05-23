@@ -280,44 +280,62 @@ if st.button("Ver clima e humor do gato"):
                 if temp <= 0:
                     cor_temp = "#48dbfb"
                     label_temp = "❄️ Gelado"
+                    emoji_temp = "🥶"
                 elif temp <= 10:
-                    cor_temp = "#48dbfb"
-                    label_temp = "🥶 Frio"
+                    cor_temp = "#74b9ff"
+                    label_temp = "🧊 Frio"
+                    emoji_temp = "🧥"
                 elif temp <= 18:
-                    cor_temp = "#f5e642"
+                    cor_temp = "#a8e6cf"
                     label_temp = "🌤️ Fresco"
+                    emoji_temp = "😊"
                 elif temp <= 26:
-                    cor_temp = "#ff9f43"
-                    label_temp = "😊 Agradável"
+                    cor_temp = "#f5e642"
+                    label_temp = "☀️ Agradável"
+                    emoji_temp = "😎"
                 elif temp <= 33:
-                    cor_temp = "#ff6b6b"
+                    cor_temp = "#ff9f43"
                     label_temp = "🥵 Quente"
+                    emoji_temp = "🌶️"
                 else:
                     cor_temp = "#ff4757"
                     label_temp = "🔥 Muito Quente"
+                    emoji_temp = "☄️"
 
                 # Calcula progresso (escala de -10°C a 45°C)
                 temp_min, temp_max = -10, 45
                 progresso = max(0, min(100, (temp - temp_min) / (temp_max - temp_min) * 100))
 
                 st.markdown(f"""
-<div style="background:#16161f;border:1px solid #22223a;border-radius:14px;padding:16px 18px;margin-bottom:12px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+<div style="background:#16161f;border:1px solid #22223a;border-radius:16px;padding:18px 20px;margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
         <div>
-            <div style="color:#6666aa;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;">🌡️ Temperatura</div>
-            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:{cor_temp};line-height:1.1;margin-top:2px;">{temp}°C</div>
-            <div style="color:#555568;font-size:0.75rem;margin-top:2px;">Sensação: {sensacao}°C</div>
+            <div style="color:#6666aa;font-size:0.68rem;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px;">🌡️ Temperatura</div>
+            <div style="display:flex;align-items:flex-end;gap:6px;">
+                <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:2.4rem;color:{cor_temp};line-height:1;">{temp}</span>
+                <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#444466;margin-bottom:6px;">°C</span>
+            </div>
+            <div style="color:#555568;font-size:0.75rem;margin-top:2px;">🤔 Sensação: <span style="color:#8888aa;">{sensacao}°C</span></div>
         </div>
-        <div style="background:{cor_temp}22;color:{cor_temp};font-size:0.75rem;font-weight:700;padding:6px 12px;border-radius:50px;letter-spacing:0.5px;">{label_temp}</div>
+        <div style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:4px;">{emoji_temp}</div>
+            <div style="background:{cor_temp}22;color:{cor_temp};font-size:0.7rem;font-weight:700;padding:4px 10px;border-radius:50px;white-space:nowrap;">{label_temp}</div>
+        </div>
     </div>
-    <div style="margin-top:8px;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-            <span style="color:#444466;font-size:0.65rem;">-10°C</span>
-            <span style="color:#444466;font-size:0.65rem;">45°C</span>
-        </div>
-        <div style="background:#22223a;border-radius:50px;height:8px;width:100%;overflow:hidden;">
-            <div style="height:100%;width:{progresso}%;background:linear-gradient(90deg,#48dbfb,#f5e642,#ff9f43,#ff4757);border-radius:50px;"></div>
-        </div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+        <span style="color:#444466;font-size:0.62rem;">❄️ -10°C</span>
+        <span style="color:#444466;font-size:0.62rem;">0°C</span>
+        <span style="color:#444466;font-size:0.62rem;">20°C</span>
+        <span style="color:#444466;font-size:0.62rem;">🔥 45°C</span>
+    </div>
+    <div style="background:#22223a;border-radius:50px;height:10px;width:100%;overflow:hidden;">
+        <div style="height:100%;width:{progresso}%;background:linear-gradient(90deg,#48dbfb 0%,#a8e6cf 25%,#f5e642 50%,#ff9f43 75%,#ff4757 100%);border-radius:50px;"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:5px;">
+        <span style="color:#333350;font-size:0.58rem;">Muito frio</span>
+        <span style="color:#333350;font-size:0.58rem;">Frio</span>
+        <span style="color:#333350;font-size:0.58rem;">Ideal</span>
+        <span style="color:#333350;font-size:0.58rem;">Quente</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -523,5 +541,3 @@ st.sidebar.markdown("""
     © 2025 Breno Rodrigues Freitas<br>Todos os direitos reservados
 </div>
 """, unsafe_allow_html=True)
-
-#Inicio para configurar um apk
