@@ -161,7 +161,8 @@ st.markdown("""
         border-radius: 16px;
     }
 
-    /* Spinner padrão oculto */
+    /* Rodapé e erro com fadeInUp */
+    .stDivider + div .stMarkdown { animation: fadeInUp 0.6s ease both; animation-delay: 0.3s; }
     .stSpinner > div {
         border-top-color: #f5e642 !important;
         display: none !important;
@@ -179,6 +180,32 @@ st.markdown("""
         from { opacity: 0; transform: translateY(12px); }
         to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* Animações de entrada dos cards */
+    @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-20px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(20px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes popIn {
+        0%   { opacity: 0; transform: scale(0.92); }
+        60%  { transform: scale(1.02); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Aplica animações nos elementos da coluna */
+    [data-testid="column"]:first-child .element-container:nth-child(1) { animation: slideInLeft 0.4s ease both; }
+    [data-testid="column"]:first-child .element-container:nth-child(2) { animation: slideInLeft 0.5s ease both; animation-delay: 0.05s; }
+    [data-testid="column"]:first-child .element-container:nth-child(3) { animation: slideInLeft 0.5s ease both; animation-delay: 0.10s; }
+    [data-testid="column"]:first-child .element-container:nth-child(4) { animation: slideInLeft 0.5s ease both; animation-delay: 0.15s; }
+    [data-testid="column"]:first-child .element-container:nth-child(5) { animation: slideInLeft 0.5s ease both; animation-delay: 0.20s; }
+    [data-testid="column"]:first-child .element-container:nth-child(6) { animation: slideInLeft 0.5s ease both; animation-delay: 0.25s; }
+
+    [data-testid="column"]:last-child .element-container:nth-child(1) { animation: slideInRight 0.5s ease both; animation-delay: 0.1s; }
+    [data-testid="column"]:last-child .element-container:nth-child(2) { animation: slideInRight 0.5s ease both; animation-delay: 0.25s; }
     .custom-loader {
         display: flex;
         flex-direction: column;
