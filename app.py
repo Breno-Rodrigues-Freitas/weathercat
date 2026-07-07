@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 import time
+import random
 from datetime import datetime
 from cat_engine import get_weather_and_mood
 
@@ -218,7 +219,7 @@ st.image("images/cat_animation.gif", use_container_width=True)
 st.title("🐱 WeatherCat")
 st.markdown("Descubra o clima e o humor do gato na sua cidade!")
 
-# Entrada do usuário (a variável cidade é definida aqui)
+# Entrada do usuário
 cidade = st.text_input("Digite o nome da cidade", placeholder="Ex: London, São Paulo")
 
 def formatar_hora(timestamp_utc, timezone_segundos):
@@ -252,8 +253,24 @@ if st.button("Ver clima e humor do gato"):
         loader.empty()
 
         if erro:
-            st.error(f"😿 {erro}")
-            st.image("images/sleep_cat.webp", caption="Gato dormindo de tédio...")
+            st.markdown(f"""
+<div style="background:#16161f;border:1px solid #3a1a1a;border-radius:20px;padding:32px 24px;text-align:center;margin-top:16px;">
+    <div style="font-size:4rem;margin-bottom:12px;">😿</div>
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#ff6b6b;margin-bottom:8px;">Cidade não encontrada</div>
+    <div style="color:#9999cc;font-size:0.88rem;margin-bottom:20px;">Não consegui encontrar <strong style="color:#e8e8f8;">"{cidade.strip().title()}"</strong> no mapa 🗺️</div>
+    <div style="background:#1e1010;border:1px solid #3a1a1a;border-radius:12px;padding:12px 16px;margin-bottom:20px;">
+        <div style="color:#7777aa;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">💡 Dicas</div>
+        <div style="color:#aaaacc;font-size:0.82rem;line-height:1.8;text-align:left;">
+            • Verifique a ortografia da cidade<br>
+            • Tente em inglês: <em>São Paulo → Sao Paulo</em><br>
+            • Use o nome completo: <em>Rio → Rio de Janeiro</em>
+        </div>
+    </div>
+    <div style="color:#555568;font-size:0.75rem;">Erro: {erro}</div>
+</div>
+""", unsafe_allow_html=True)
+            st.image("images/sleep_cat.webp", caption="O gato desistiu de procurar essa cidade... 😴", use_container_width=True)
+
         else:
             # Define o caminho da imagem baseado no humor
             imagem_nome = dados['humor_nome'] + ".webp"
@@ -276,33 +293,19 @@ if st.button("Ver clima e humor do gato"):
                 temp = dados['temperatura']
                 sensacao = dados['sensacao']
 
-                # Define cor e label baseado na temperatura
                 if temp <= 0:
-                    cor_temp = "#48dbfb"
-                    label_temp = "❄️ Gelado"
-                    emoji_temp = "🥶"
+                    cor_temp, label_temp, emoji_temp = "#48dbfb", "❄️ Gelado", "🥶"
                 elif temp <= 10:
-                    cor_temp = "#74b9ff"
-                    label_temp = "🧊 Frio"
-                    emoji_temp = "🧥"
+                    cor_temp, label_temp, emoji_temp = "#74b9ff", "🧊 Frio", "🧥"
                 elif temp <= 18:
-                    cor_temp = "#a8e6cf"
-                    label_temp = "🌤️ Fresco"
-                    emoji_temp = "😊"
+                    cor_temp, label_temp, emoji_temp = "#a8e6cf", "🌤️ Fresco", "😊"
                 elif temp <= 26:
-                    cor_temp = "#f5e642"
-                    label_temp = "☀️ Agradável"
-                    emoji_temp = "😎"
+                    cor_temp, label_temp, emoji_temp = "#f5e642", "☀️ Agradável", "😎"
                 elif temp <= 33:
-                    cor_temp = "#ff9f43"
-                    label_temp = "🥵 Quente"
-                    emoji_temp = "🌶️"
+                    cor_temp, label_temp, emoji_temp = "#ff9f43", "🥵 Quente", "🌶️"
                 else:
-                    cor_temp = "#ff4757"
-                    label_temp = "🔥 Muito Quente"
-                    emoji_temp = "☄️"
+                    cor_temp, label_temp, emoji_temp = "#ff4757", "🔥 Muito Quente", "☄️"
 
-                # Calcula progresso (escala de -10°C a 45°C)
                 temp_min, temp_max = -10, 45
                 progresso = max(0, min(100, (temp - temp_min) / (temp_max - temp_min) * 100))
 
@@ -342,84 +345,42 @@ if st.button("Ver clima e humor do gato"):
 
                 st.markdown(f"""<div style="text-align:center;margin:8px 0 12px;"><span style="background:#22223a;color:#d8d8e8;font-size:0.85rem;padding:6px 16px;border-radius:50px;">🌥️ {dados['condicao'].capitalize()}</span></div>""", unsafe_allow_html=True)
 
-                # Badges visuais de umidade e vento
+                # Badges de umidade e vento
                 umidade = dados['umidade']
                 vento = dados['vento_velocidade']
 
-                # Cor da umidade baseada no nível
                 if umidade < 30:
-                    cor_umidade = "#ff6b6b"
-                    label_umidade = "Seco"
+                    cor_umidade, label_umidade = "#ff6b6b", "Seco"
                 elif umidade < 60:
-                    cor_umidade = "#f5e642"
-                    label_umidade = "Agradável"
+                    cor_umidade, label_umidade = "#f5e642", "Agradável"
                 else:
-                    cor_umidade = "#48dbfb"
-                    label_umidade = "Úmido"
+                    cor_umidade, label_umidade = "#48dbfb", "Úmido"
 
-                # Cor do vento baseada na velocidade
                 if vento < 3:
-                    cor_vento = "#48dbfb"
-                    label_vento = "Calmo"
+                    cor_vento, label_vento = "#48dbfb", "Calmo"
                 elif vento < 8:
-                    cor_vento = "#f5e642"
-                    label_vento = "Moderado"
+                    cor_vento, label_vento = "#f5e642", "Moderado"
                 else:
-                    cor_vento = "#ff6b6b"
-                    label_vento = "Forte"
+                    cor_vento, label_vento = "#ff6b6b", "Forte"
 
                 st.markdown(f"""
-<div style="display:flex; gap:10px; margin: 10px 0;">
-    <div style="
-        flex:1;
-        background:#16161f;
-        border:1px solid #22223a;
-        border-radius:14px;
-        padding:12px 14px;
-        text-align:center;
-    ">
-        <div style="font-size:1.4rem; margin-bottom:4px;">💧</div>
-        <div style="color:#6666aa; font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Umidade</div>
-        <div style="font-family:'Syne',sans-serif; font-weight:700; font-size:1.2rem; color:{cor_umidade};">{umidade}%</div>
-        <div style="
-            display:inline-block;
-            background:{cor_umidade}22;
-            color:{cor_umidade};
-            font-size:0.68rem;
-            font-weight:600;
-            padding:2px 8px;
-            border-radius:50px;
-            margin-top:4px;
-            letter-spacing:0.5px;
-        ">{label_umidade}</div>
+<div style="display:flex;gap:10px;margin:10px 0;">
+    <div style="flex:1;background:#16161f;border:1px solid #22223a;border-radius:14px;padding:12px 14px;text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:4px;">💧</div>
+        <div style="color:#6666aa;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Umidade</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;color:{cor_umidade};">{umidade}%</div>
+        <div style="display:inline-block;background:{cor_umidade}22;color:{cor_umidade};font-size:0.68rem;font-weight:600;padding:2px 8px;border-radius:50px;margin-top:4px;">{label_umidade}</div>
     </div>
-    <div style="
-        flex:1;
-        background:#16161f;
-        border:1px solid #22223a;
-        border-radius:14px;
-        padding:12px 14px;
-        text-align:center;
-    ">
-        <div style="font-size:1.4rem; margin-bottom:4px;">💨</div>
-        <div style="color:#6666aa; font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Vento</div>
-        <div style="font-family:'Syne',sans-serif; font-weight:700; font-size:1.2rem; color:{cor_vento};">{vento} m/s</div>
-        <div style="
-            display:inline-block;
-            background:{cor_vento}22;
-            color:{cor_vento};
-            font-size:0.68rem;
-            font-weight:600;
-            padding:2px 8px;
-            border-radius:50px;
-            margin-top:4px;
-            letter-spacing:0.5px;
-        ">{label_vento}</div>
+    <div style="flex:1;background:#16161f;border:1px solid #22223a;border-radius:14px;padding:12px 14px;text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:4px;">💨</div>
+        <div style="color:#6666aa;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Vento</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;color:{cor_vento};">{vento} m/s</div>
+        <div style="display:inline-block;background:{cor_vento}22;color:{cor_vento};font-size:0.68rem;font-weight:600;padding:2px 8px;border-radius:50px;margin-top:4px;">{label_vento}</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-                # Nascer e pôr do sol estilizados
+                # Ciclo Solar
                 nascer = formatar_hora(dados.get('nascer_sol'), dados.get('timezone', 0))
                 por_sol = formatar_hora(dados.get('por_sol'), dados.get('timezone', 0))
 
@@ -445,9 +406,9 @@ if st.button("Ver clima e humor do gato"):
 </div>
 """, unsafe_allow_html=True)
 
+                # Humor e hora local
                 st.markdown(f"""<div style="text-align:center;margin:10px 0 4px;"><span style="background:#f5e64222;color:#f5e642;font-size:0.82rem;font-weight:600;padding:6px 16px;border-radius:50px;">😸 {humor_desc}</span></div>""", unsafe_allow_html=True)
 
-                # Hora local atual da cidade
                 agora_utc = time.time()
                 hora_local = datetime.fromtimestamp(agora_utc + dados['timezone']).strftime("%d/%m/%Y %H:%M")
                 st.markdown(f"""<div style="text-align:center;color:#555568;font-size:0.78rem;margin-top:6px;">🕐 Hora local: {hora_local}</div>""", unsafe_allow_html=True)
@@ -456,7 +417,6 @@ if st.button("Ver clima e humor do gato"):
                 st.image(imagem_path, caption=humor_desc, use_container_width=True)
 
                 # Curiosidade felina do dia
-                import random
                 curiosidades = [
                     "Gatos passam até 70% da vida dormindo. Vida boa, né? 😴",
                     "O ronron de um gato pode curar ossos — a frequência de 25-50Hz estimula a regeneração. 🦴",
@@ -488,28 +448,14 @@ if st.button("Ver clima e humor do gato"):
 st.sidebar.markdown("""
 <div style="text-align:center; padding: 10px 0 20px;">
     <div style="font-size:2.8rem; margin-bottom:6px;">🐱</div>
-    <div style="
-        font-family:'Syne',sans-serif;
-        font-weight:800;
-        font-size:1.3rem;
-        color:#f5e642;
-        letter-spacing:1px;
-    ">WeatherCat</div>
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#f5e642;letter-spacing:1px;">WeatherCat</div>
     <div style="color:#444466; font-size:0.72rem; margin-top:2px;">v1.0 · by Breno Rodrigues</div>
 </div>
 
 <hr style="border-color:#1e1e30; margin: 0 0 20px;">
 
 <div style="margin-bottom:20px;">
-    <div style="
-        color:#f5e642;
-        font-family:'Syne',sans-serif;
-        font-weight:700;
-        font-size:0.8rem;
-        letter-spacing:1.5px;
-        text-transform:uppercase;
-        margin-bottom:12px;
-    ">📖 Sobre</div>
+    <div style="color:#f5e642;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">📖 Sobre</div>
     <div style="color:#7777aa; font-size:0.82rem; line-height:1.7;">
         Usa a API do <strong style="color:#aaaacc;">OpenWeather</strong> para obter dados climáticos em tempo real
         e exibe um gatinho cujo humor muda com o tempo. 😺
@@ -519,15 +465,7 @@ st.sidebar.markdown("""
 <hr style="border-color:#1e1e30; margin: 0 0 20px;">
 
 <div style="margin-bottom:20px;">
-    <div style="
-        color:#f5e642;
-        font-family:'Syne',sans-serif;
-        font-weight:700;
-        font-size:0.8rem;
-        letter-spacing:1.5px;
-        text-transform:uppercase;
-        margin-bottom:12px;
-    ">⚙️ Tecnologias</div>
+    <div style="color:#f5e642;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">⚙️ Tecnologias</div>
     <div style="display:flex; flex-direction:column; gap:8px;">
         <div style="background:#16161f; border:1px solid #22223a; border-radius:10px; padding:8px 12px; color:#aaaacc; font-size:0.8rem;">🐍 Python</div>
         <div style="background:#16161f; border:1px solid #22223a; border-radius:10px; padding:8px 12px; color:#aaaacc; font-size:0.8rem;">🎈 Streamlit</div>
