@@ -68,7 +68,7 @@ def choose_cat(weather_data):
     vento = weather_data["vento_velocidade"]
     descricao = weather_data["condicao"].lower()
 
-    # Verifica se é noite
+    # Verifica se é noite.
     noite = is_noite(weather_data["nascer_sol"], weather_data["por_sol"], weather_data["timezone"])
 
     # Prioridade das condições (do mais específico ao mais genérico)
