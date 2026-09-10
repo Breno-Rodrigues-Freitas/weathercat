@@ -255,7 +255,7 @@ def formatar_hora(timestamp_utc, timezone_segundos):
         return "Não disponível"
     hora_local = datetime.fromtimestamp(timestamp_utc + timezone_segundos)
     return hora_local.strftime("%H:%M")
-
+#jçjç
 def imagem_existe(caminho):
     """Verifica se o arquivo de imagem existe."""
     return os.path.isfile(caminho)
